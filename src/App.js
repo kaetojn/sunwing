@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react"
+import "./App.css"
+import SelectDestination from "./components/SelectDestination"
+import header from "./assets/header.png"
 
-function App() {
+const App = () => {
+  const [destinations, setDestinations] = useState(undefined)
+
+  const getDestinations = () => {
+    fetch(
+      "https://hotelinfoservice.sunwingtravelgroup.com/en/AllHotelDestinationList"
+    )
+      .then((response) => response.json())
+      .then((data) => setDestinations(data))
+  }
+
+  useEffect(() => {
+    getDestinations()
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <img src={header} className="header" alt='header' />
+      <SelectDestination destinations={destinations} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
